@@ -16,7 +16,26 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * Inventorie les fichiers d'un dépôt local de manière récursive.
+ *
+ * <p>Le parcours exclut les répertoires {@code .git}, {@code .idea}, {@code target} et {@code build}, indépendamment de
+ * leur profondeur. Les liens symboliques ne sont pas suivis.
+ *
+ * <p>Les fichiers sont classés par catégorie et leurs chemins sont représentés relativement à la racine, avec {@code /}
+ * comme séparateur.
+ *
+ * <p>L'inventaire est trié et n'altère pas le dépôt analysé.
+ */
 public class RepositoryInventory {
+
+    /**
+     * Construit l'inventaire d'un répertoire.
+     *
+     * @param root répertoire racine à analyser
+     * @return inventaire des fichiers et diagnostics éventuels
+     * @throws IOException si la racine est invalide ou si une erreur d'accès empêche l'analyse
+     */
     public Inventory scan(Path root) throws IOException {
         Path start = Objects.requireNonNull(root).toAbsolutePath();
 
